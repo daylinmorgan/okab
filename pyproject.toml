@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "altair-saver-resvg"
+dynamic = ["version"]
+description = "pkg + resvg + vega + altair = static beauty"
+readme = "README.md"
+authors = [
+    {name = "Daylin Morgan", email = "daylinmorgan@gmail.com"},
+]
+dependencies = []
+requires-python = ">=3.7"
+license = {text = "MIT"}
+[project.optional-dependencies]
+
+[tool.setuptools]
+packages = ["altair_saver_resvg","altair_saver_resvg.src"]
+
+[tool.setuptools.dynamic]
+version = { attr = "altair_saver_resvg.__version__" }
+
+[tool.setuptools.package-data]
+altair_saver_resvg = ["src/*"]
+
+[tool.pdm]
+[tool.pdm.dev-dependencies]
+dev = [
+    "black>=22.6.0",
+    "flake8>=5.0.4",
+    "mypy>=0.971",
+    "altair>=4.2.0",
+    "altair-saver>=0.5.0",
+    "build>=0.8.0",
+]
+
+[tool.mypy]
+exclude = ["build/","examples"]

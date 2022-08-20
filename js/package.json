@@ -1,0 +1,21 @@
+{
+  "name": "vega-resvg",
+  "bin": "index.js",
+  "scripts": {
+    "build": "pkg . --no-bytecode --public-packages \"*\" --public -C GZip"
+  },
+  "dependencies": {
+    "@resvg/resvg-js": "^2.1.0",
+    "vega": "^5.22.1",
+    "vega-lite": "^5.5.0"
+  },
+  "pkg": {
+    "targets": [
+      "node18-linux-arm64",
+      "node18-linux-x64",
+      "node18-win-x64",
+      "node18-macos-x64"
+    ],
+    "outputPath": "dist"
+  }
+}
