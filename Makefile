@@ -1,8 +1,8 @@
 .PHONY: build
-build: dist/altair_saver_resvg-0.1.0-py3-none-any.whl
+build: dist/altair_saver_resvg-0.1.0-py3-none-linux_x86_64.whl
 
-dist/altair_saver_resvg-0.1.0-py3-none-any.whl: altair_saver_resvg/src/vega-resvg
-	python -m build --wheel
+dist/altair_saver_resvg-0.1.0-py3-none-linux_x86_64.whl: altair_saver_resvg/src/vega-resvg
+	python setup.py bdist_wheel -p linux-x86_64
 
 altair_saver_resvg/src/vega-resvg: js/index.js
 	$(MAKE) -C js build
