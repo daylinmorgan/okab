@@ -99,8 +99,9 @@ cp vega-resvg ../altair_saver_resvg/src/vega-resvg
 Finally, build the wheel:
 
 ```
-python -m build --wheel
+python setup.py bdist_wheel
 ```
+
 
 You can then install this wheel and test it using the included examples:
 ```
@@ -108,6 +109,16 @@ pip install dist/*.whl
 cd examples
 python make-examples.py
 ```
+
+To cross-compile wheels for windows, mac and linux:
+```
+cd js
+./get-binaries.sh
+npm run build
+cd ..
+make wheels
+```
+
 
 ## Results
 
