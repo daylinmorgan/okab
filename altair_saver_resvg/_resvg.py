@@ -1,6 +1,7 @@
 import base64
 from pathlib import Path
 import subprocess
+import tempfile
 from typing import Any, Dict, List, Optional
 import json
 
@@ -19,22 +20,34 @@ class ExecutionError(RuntimeError):
 
 
 def vega(spec: JSONDict, opt: Optional[JSONDict], fmt: str) -> JSONDict:
-    # ? should replace __file__ based method importlib
-    p = subprocess.run(
-        [
-            Path(__file__).parent / "src" / "vega-resvg",
-            json.dumps(spec),
-            json.dumps(opt),
-            fmt,
-        ],
-        capture_output=True,
-        universal_newlines=True,
-    )
-    # TODO: catch subprocess error
+    with tempfile.NamedTemporaryFile() as fp:
+        print(fp.name)
+        fp.write(json.dumps(spec).encode())
+        fp.seek(0)
+
+        # ? should replace __file__ based method importlib
+        try:
+            p = subprocess.run(
+                [
+                    Path(__file__).parent / "src" / "vega-resvg",
+                    fp.name,
+                    json.dumps(opt),
+                    fmt,
+                ],
+                capture_output=True,
+                universal_newlines=True,
+            )
+
+        except OSError:
+            raise ExecutionError(
+                "Problems executing vega-resvg, check you installed the version for your platform"
+            )
+
     if p.returncode != 0:
         raise ExecutionError(
             f"failed to execute vega-resvg, see below: \n{p.stdout}\n{p.stderr}"
         )
+
     try:
         return json.loads(p.stdout)
     except json.decoder.JSONDecodeError:
