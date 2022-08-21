@@ -1,12 +1,29 @@
+CMD := node ../index.js --spec ./example.vl.json --opts '{"mode":"vega-lite","scale":1}'
+
 .PHONY: all
-all: example.png example.svg example.json
+all: svg png vega
 
-example.%:
-	node ../index.js ./example.vl.json '{"mode":"vega-lite","scale":1}' $* $@
+.PHONY: svg
+svg:
+	$(CMD) --format $@
 
-example.json:
-	node ../index.js ./example.vl.json '{"mode":"vega-lite","scale":1}' 'vega' ./example.json
+.PHONY: png
+png:
+	$(CMD) --format $@
 
-.PHONY: clean
-clean:
-	rm example.png example.svg example.json
+.PHONY: vega
+vega:
+	$(CMD) --format $@
+# .PHONY: all
+# all: example.png example.svg example.json
+
+# example.%:
+# 	node ../index.js ./example.vl.json '{"mode":"vega-lite","scale":1}' $* $@
+
+# example.json:
+# 	node ../index.js ./example.vl.json '{"mode":"vega-lite","scale":1}' 'vega' ./example.json
+
+# .PHONY: clean
+# clean:
+# 	rm example.png example.svg example.json
+
