@@ -1,26 +1,16 @@
-.PHONY: build
-build: dist/altair_saver_resvg-0.1a1-py3-none-linux_x86_64.whl
+PLATFORMS = linux_x86_64 macosx_10_14_x86_64 win_amd64
+VERSION = $(shell grep __version__ altair_saver_resvg/__init__.py | awk -F'"' '{print $$2}')
+WHEELS = $(addprefix dist/altair_saver_resvg-${VERSION}-py3-none-,$(addsuffix .whl,$(PLATFORMS)))
 
 .PHONY: wheels
-wheels: $(addprefix dist/altair_saver_resvg-0.1a1-py3-none-,$(addsuffix .whl,linux_x86_64 macosx_10_14_x86_64 win_amd64))
+wheels: $(WHEELS)
 
-dist/altair_saver_resvg-0.1a1-py3-none-linux_x86_64.whl: ./js/dist/vega-resvg-linux-x64
-	@echo "==> Building Linux Wheel <=="
+dist/altair_saver_resvg-${VERSION}-py3-none-%.whl:
+	@echo "==> Building $* Wheel <=="
 	@rm -f altair_saver_resvg/src/*
-	@cp $< altair_saver_resvg/src/vega-resvg
-	@python setup.py bdist_wheel -p linux_x86_64
-
-dist/altair_saver_resvg-0.1a1-py3-none-macosx_10_14_x86_64.whl: ./js/dist/vega-resvg-macos-x64
-	@echo "==> Building MacOS x64 Wheel <=="
-	@rm -f altair_saver_resvg/src/*
-	@cp ./js/dist/vega-resvg-macos-x64 altair_saver_resvg/src/vega-resvg
-	@python setup.py bdist_wheel -p macosx_10_14_x86_64
-
-dist/altair_saver_resvg-0.1a1-py3-none-win_amd64.whl: ./js/dist/vega-resvg-win-x64.exe
-	@echo "==> Building Windows Wheel <=="
-	@rm -f altair_saver_resvg/src/*
-	@cp ./js/dist/vega-resvg-win-x64.exe altair_saver_resvg/src/vega-resvg
-	@python setup.py bdist_wheel -p win_amd64
+	@$(MAKE) -C js dist/vega-resvg-$*
+	@cp js/dist/vega-resvg-$* altair_saver_resvg/src/vega-resvg
+	@python setup.py bdist_wheel -p $*
 
 altair_saver_resvg/src/vega-resvg: js/index.js
 	$(MAKE) -C js build
