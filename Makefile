@@ -9,6 +9,10 @@ altair_saver_resvg/src/vega-resvg: js/index.js
 	rm -f altair_saver_resvg/src/*
 	cp js/vega-resvg altair_saver_resvg/src/vega-resvg
 
+.PHONY: examples
+examples:
+	rm -rf ./examples/*.{svg,png}
+	cd examples && python make-examples.py
 
 .PHONY: lint
 lint:

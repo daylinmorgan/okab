@@ -2,23 +2,33 @@ const fs = require("fs");
 const vega = require("vega");
 const vegaLite = require("vega-lite");
 const { Resvg } = require("@resvg/resvg-js");
+const yargs = require("yargs/yargs");
 
-if (process.argv.length !== 5) {
-  console.error("expected 3 arguments");
-  console.error("direct invocation discouraged");
+var argv = yargs(process.argv.slice(2))
+  .usage("Usage: vega-resvg --spec [file] --opts [json opts] --format [format]")
+  .option("spec", {
+    describe: "file with vega/vega-lite json",
+  })
+  .option("opts", {
+    describe: "json string with embedOpts",
+  })
+  .option("format", {
+    describe: "output data type",
+    choices: ["vega", "svg", "png"],
+  })
+  .demandOption(["spec", "opts", "format"])
+  .wrap(72)
+  .version(false).argv;
+
+try {
+  var spec = JSON.parse(fs.readFileSync(argv.spec, "utf8"));
+} catch (error) {
+  console.log(JSON.stringify({ error: error.toString() }));
   process.exit(1);
 }
 
-const myArgs = process.argv.slice(2);
-
-try {
-  var spec = JSON.parse(fs.readFileSync(myArgs[0], "utf8"));
-} catch (err) {
-  console.error(err);
-}
-
-const embedOpt = JSON.parse(myArgs[1]);
-const format = myArgs[2];
+const embedOpt = JSON.parse(argv.opts);
+const format = argv.format;
 
 if (embedOpt.mode === "vega-lite") {
   try {
@@ -26,7 +36,7 @@ if (embedOpt.mode === "vega-lite") {
     spec = compiled.spec;
   } catch (error) {
     console.log(JSON.stringify({ error: error.toString() }));
-    return;
+    process.exit(1);
   }
 }
 

@@ -30,8 +30,11 @@ def vega(spec: JSONDict, opt: Optional[JSONDict], fmt: str) -> JSONDict:
             p = subprocess.run(
                 [
                     Path(__file__).parent / "src" / "vega-resvg",
+                    "--spec",
                     fp.name,
+                    "--opts",
                     json.dumps(opt),
+                    "--format",
                     fmt,
                 ],
                 capture_output=True,
