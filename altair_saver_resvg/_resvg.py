@@ -1,9 +1,14 @@
 import base64
-from pathlib import Path
 import subprocess
 import tempfile
 from typing import Any, Dict, List, Optional
 import json
+
+try:
+    # python < 3.9
+    from importlib_resources import files
+except ImportError:
+    from importlib.resources import files
 
 import altair as alt
 
@@ -21,29 +26,32 @@ class ExecutionError(RuntimeError):
 
 def vega(spec: JSONDict, opt: Optional[JSONDict], fmt: str) -> JSONDict:
     with tempfile.NamedTemporaryFile() as fp:
-        print(fp.name)
         fp.write(json.dumps(spec).encode())
         fp.seek(0)
 
-        # ? should replace __file__ based method importlib
+        # TODO: verify executable is available and executable
+        cmd = (
+            str(files("altair_saver_resvg") / "src" / "vega-resvg"),
+            "--spec",
+            fp.name,
+            "--opts",
+            json.dumps(opt),
+            "--format",
+            fmt,
+        )
+
         try:
             p = subprocess.run(
-                [
-                    Path(__file__).parent / "src" / "vega-resvg",
-                    "--spec",
-                    fp.name,
-                    "--opts",
-                    json.dumps(opt),
-                    "--format",
-                    fmt,
-                ],
+                cmd,
                 capture_output=True,
                 universal_newlines=True,
             )
 
         except OSError:
             raise ExecutionError(
-                "Problems executing vega-resvg, check you installed the version for your platform"
+                "Problems executing vega-resvg, check you installed the version for your platform\n"
+                "cmd executed: \n"
+                "  " + " ".join(cmd)
             )
 
     if p.returncode != 0:
