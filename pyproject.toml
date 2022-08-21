@@ -10,7 +10,9 @@ readme = "README.md"
 authors = [
     {name = "Daylin Morgan", email = "daylinmorgan@gmail.com"},
 ]
-dependencies = []
+dependencies = [
+    'importlib-resources>=5.9.0; python_version < "3.9"',
+]
 requires-python = ">=3.7"
 license = {text = "MIT"}
 [project.optional-dependencies]
