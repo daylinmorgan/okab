@@ -132,11 +132,11 @@ python make-examples.py
 
 2. M1, it should be possible to build for Apple silicon but the binaries will likely need to be signed to not panic.
 
-3. Currently data is handled with "strinified" json to and from the packaged executable. This will likely be a problem with more complex charts or those with large data, particularly on windows where running the example script produces: `FileNotFoundError: [winError 206] The filename or extension is too long.`
+3. Currently data is handled with "stringified" json to and from the packaged executable. This will likely be a problem with more complex charts or those with large data, particularly on windows where running the example script produces: `FileNotFoundError: [winError 206] The filename or extension is too long.`
 
 This choice was mainly to align with the `Saver` API which expects to receive the data to write to a file in it's own save method.
 
-However, instead we could instead pass the vega-lite spec to a temporary json file and pass this path as an argument to `vega-resvg`.
+However, instead we could pass the vega-lite spec to a temporary json file and pass this path as an argument to `vega-resvg`.
 
 If we take this approach it also opens up the possibility to mirror the features of the native `vega` cli in a python accessible entrypoint such as:
 
