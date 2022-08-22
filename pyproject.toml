@@ -11,6 +11,8 @@ authors = [
     {name = "Daylin Morgan", email = "daylinmorgan@gmail.com"},
 ]
 dependencies = [
+    'altair >=4.2',
+    'altair_saver > 0.5',
     'importlib-resources>=5.9.0; python_version < "3.9"',
 ]
 requires-python = ">=3.7"
