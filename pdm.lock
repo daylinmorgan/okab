@@ -451,6 +451,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "vega-datasets"
+version = "0.9.0"
+requires_python = ">=3.5"
+summary = "A Python package for offline access to Vega datasets"
+dependencies = [
+    "pandas",
+]
+
+[[package]]
 name = "wsproto"
 version = "1.1.0"
 requires_python = ">=3.7.0"
@@ -467,7 +476,7 @@ summary = "Backport of pathlib-compatible object wrapper for zip files"
 
 [metadata]
 lock_version = "4.0"
-content_hash = "sha256:3f72f2b1e731314914d4573bb36c1d4f35a2b006ed7e5f893f66e1d098326d16"
+content_hash = "sha256:40148476d6ce224ab4ebeb1008e510fef29674ad6973495d34298046036c6e44"
 
 [metadata.files]
 "altair 4.2.0" = [
@@ -955,6 +964,10 @@ content_hash = "sha256:3f72f2b1e731314914d4573bb36c1d4f35a2b006ed7e5f893f66e1d09
 "urllib3 1.26.11" = [
     {url = "https://files.pythonhosted.org/packages/6d/d5/e8258b334c9eb8eb78e31be92ea0d5da83ddd9385dc967dd92737604d239/urllib3-1.26.11.tar.gz", hash = "sha256:ea6e8fb210b19d950fab93b60c9009226c63a28808bc8386e05301e25883ac0a"},
     {url = "https://files.pythonhosted.org/packages/d1/cb/4783c8f1a90f89e260dbf72ebbcf25931f3a28f8f80e2e90f8a589941b19/urllib3-1.26.11-py2.py3-none-any.whl", hash = "sha256:c33ccba33c819596124764c23a97d25f32b28433ba0dedeb77d873a38722c9bc"},
+]
+"vega-datasets 0.9.0" = [
+    {url = "https://files.pythonhosted.org/packages/8f/a0/ce608d9a5b82fce2ebaa2311136b1e1d1dc2807f501bbdfa56bd174fff76/vega_datasets-0.9.0.tar.gz", hash = "sha256:9dbe9834208e8ec32ab44970df315de9102861e4cda13d8e143aab7a80d93fc0"},
+    {url = "https://files.pythonhosted.org/packages/e6/9f/ca52771fe972e0dcc5167fedb609940e01516066938ff2ee28b273ae4f29/vega_datasets-0.9.0-py3-none-any.whl", hash = "sha256:3d7c63917be6ca9b154b565f4779a31fedce57b01b5b9d99d8a34a7608062a1d"},
 ]
 "wsproto 1.1.0" = [
     {url = "https://files.pythonhosted.org/packages/4b/6e/5f8c3e8418966f50d028e336f0c2c568f8522577183678923609d4d24924/wsproto-1.1.0-py3-none-any.whl", hash = "sha256:2218cb57952d90b9fca325c0dcfb08c3bda93e8fd8070b0a17f048e2e47a521b"},
