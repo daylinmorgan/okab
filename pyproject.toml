@@ -27,6 +27,8 @@ version = { attr = "okab.__version__" }
 okab = ["vega/*"]
 
 [tool.pdm]
+version = { source = "file", path = "okab/_version.py" }
+
 [tool.pdm.dev-dependencies]
 dev = [
     "black>=22.6.0",
