@@ -1,8 +1,8 @@
-const fs = require("fs");
-const vega = require("vega");
-const vegaLite = require("vega-lite");
-const { Resvg } = require("@resvg/resvg-js");
-const yargs = require("yargs/yargs");
+import { readFileSync } from "fs";
+import { View, parse } from "vega";
+import { compile } from "vega-lite";
+import { Resvg } from "@resvg/resvg-js";
+import yargs from "yargs/yargs";
 
 var argv = yargs(process.argv.slice(2))
   .usage("Usage: vega-resvg --spec [file] --opts [json opts] --format [format]")
@@ -21,7 +21,7 @@ var argv = yargs(process.argv.slice(2))
   .version(false).argv;
 
 try {
-  var spec = JSON.parse(fs.readFileSync(argv.spec, "utf8"));
+  var spec = JSON.parse(readFileSync(argv.spec, "utf8"));
 } catch (error) {
   console.log(JSON.stringify({ error: error.toString() }));
   process.exit(1);
@@ -32,7 +32,7 @@ const format = argv.format;
 
 if (embedOpt.mode === "vega-lite") {
   try {
-    const compiled = vegaLite.compile(spec);
+    const compiled = compile(spec);
     spec = compiled.spec;
   } catch (error) {
     console.log(JSON.stringify({ error: error.toString() }));
@@ -43,11 +43,13 @@ if (embedOpt.mode === "vega-lite") {
 if (format === "vega") {
   console.log(JSON.stringify({ result: spec }));
 } else {
-  var view = new vega.View(vega.parse(spec), { renderer: "none" });
+  var view = new View(parse(spec), { renderer: "none" });
 
   if (format === "svg") {
     view
-      .toSVG()
+      .toSVG(
+      embedOpt.scaleFactor || 1
+      )
       .then(function (result) {
         console.log(JSON.stringify({ result: result }));
       })
@@ -56,7 +58,9 @@ if (format === "vega") {
       });
   } else if (format === "png") {
     view
-      .toSVG()
+      .toSVG(
+      embedOpt.scaleFactor || 1
+      )
       .then(function (result) {
         svg2png(result);
       })
@@ -71,10 +75,6 @@ if (format === "vega") {
 
 async function svg2png(svg) {
   const opts = {
-    fitTo: {
-      mode: "zoom",
-      value: embedOpt.scaleFactor || 1,
-    },
     logLevel: "off",
   };
 
