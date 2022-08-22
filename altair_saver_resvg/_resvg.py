@@ -66,7 +66,7 @@ def vega(spec: JSONDict, opt: Optional[JSONDict], fmt: str) -> JSONDict:
 
 
 class ResvgSaver(Saver):
-    """Save charts using deno."""
+    """Save charts using vega-resvg."""
 
     valid_formats: Dict[str, List[str]] = {
         "vega": ["png", "svg"],
