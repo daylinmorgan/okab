@@ -1,7 +1,6 @@
-# altair-saver-resvg
+# Okab
 
-pkg + resvg + vega + altair = static beauty
-
+altair + okab = static beauty
 
 ## Problem
 
@@ -88,11 +87,11 @@ In order to cross-compile the executable's you'll need to have available the nec
 The necessary binary for your own architecture should be pickup by the initial `npm install`.
 
 To build the executable run the following specifying your target, see `vercel/pkg` for info about supported targets.
-Then copy this binary to `altair_saver_resvg/src/vega-resvg`.
+Then copy this binary to `okab/vega/vega-resvg`.
 
 ```
 pkg index.js --no-bytecode --public-packages "*" --public -C GZip --target linux -o vega-resvg
-cp vega-resvg ../altair_saver_resvg/src/vega-resvg
+cp vega-resvg ../okab/vega/vega-resvg
 ```
 
 

@@ -3,7 +3,7 @@ requires = ["setuptools", "setuptools-scm"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "altair-saver-resvg"
+name = "okab"
 dynamic = ["version"]
 description = "pkg + resvg + vega + altair = static beauty"
 readme = "README.md"
@@ -18,13 +18,13 @@ license = {text = "MIT"}
 [project.optional-dependencies]
 
 [tool.setuptools]
-packages = ["altair_saver_resvg","altair_saver_resvg.src"]
+packages = ["okab","okab.vega"]
 
 [tool.setuptools.dynamic]
-version = { attr = "altair_saver_resvg.__version__" }
+version = { attr = "okab.__version__" }
 
 [tool.setuptools.package-data]
-altair_saver_resvg = ["src/*"]
+okab = ["vega/*"]
 
 [tool.pdm]
 [tool.pdm.dev-dependencies]

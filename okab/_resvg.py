@@ -31,7 +31,7 @@ def vega(spec: JSONDict, opt: Optional[JSONDict], fmt: str) -> JSONDict:
 
         # TODO: verify executable is available and executable
         cmd = (
-            str(files("altair_saver_resvg") / "src" / "vega-resvg"),
+            str(files("okab") / "vega" / "vega-resvg"),
             "--spec",
             fp.name,
             "--opts",

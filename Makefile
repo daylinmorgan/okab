@@ -1,21 +1,21 @@
 PLATFORMS = linux_x86_64 macosx_10_14_x86_64 win_amd64
-VERSION = $(shell grep __version__ altair_saver_resvg/__init__.py | awk -F'"' '{print $$2}')
-WHEELS = $(addprefix dist/altair_saver_resvg-${VERSION}-py3-none-,$(addsuffix .whl,$(PLATFORMS)))
+VERSION = $(shell grep __version__ okab/__init__.py | awk -F'"' '{print $$2}')
+WHEELS = $(addprefix dist/okab-${VERSION}-py3-none-,$(addsuffix .whl,$(PLATFORMS)))
 
 .PHONY: wheels
 wheels: $(WHEELS)
 
-dist/altair_saver_resvg-${VERSION}-py3-none-%.whl:
+dist/okab-${VERSION}-py3-none-%.whl:
 	@echo "==> Building $* Wheel <=="
-	@rm -f altair_saver_resvg/src/*
+	@rm -f okab/vega/*
 	@$(MAKE) -C js dist/vega-resvg-$*
-	@cp js/dist/vega-resvg-$* altair_saver_resvg/src/vega-resvg
+	@cp js/dist/vega-resvg-$* okab/vega/vega-resvg
 	@python setup.py bdist_wheel -p $*
 
-altair_saver_resvg/src/vega-resvg: js/index.js
+okab/vega/vega-resvg: js/index.js
 	$(MAKE) -C js build
-	rm -f altair_saver_resvg/src/*
-	cp js/vega-resvg altair_saver_resvg/src/vega-resvg
+	rm -f okab/vega/*
+	cp js/vega-resvg okab/vega/vega-resvg
 
 .PHONY: examples
 examples:
