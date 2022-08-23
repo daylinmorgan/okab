@@ -8,15 +8,15 @@ def main():
     # plot_bar().save("example.vl.json")
 
     # chart.save doesn't catch new method when json?
-    save(plot_bar(), "example-bar-compiled.json", method=ResvgSaver, fmt="vega")
+    save(plot_bar(), "example-bar-compiled.json", method=OkabSaver, fmt="vega")
 
-    plot_bar().save("example-bar.svg", method=ResvgSaver)
-    plot_bar().save("example-bar.png", method=ResvgSaver)
-    plot_bar().save("example-bar-scaled.png", method=ResvgSaver, scale_factor=5.0)
+    plot_bar().save("example-bar.svg", method=OkabSaver)
+    plot_bar().save("example-bar.png", method=OkabSaver)
+    plot_bar().save("example-bar-scaled.png", method=OkabSaver, scale_factor=5.0)
 
-    plot_map().save("example-map.png", method=ResvgSaver)
-    plot_area().save("example-area.png", method=ResvgSaver)
-    plot_paths().save("example-paths.png", method=ResvgSaver)
+    plot_map().save("example-map.png", method=OkabSaver)
+    plot_area().save("example-area.png", method=OkabSaver)
+    plot_paths().save("example-paths.png", method=OkabSaver)
 
 
 if __name__ == "__main__":
