@@ -1,4 +1,3 @@
-from pathlib import Path
 import subprocess
 import sys
 
@@ -8,7 +7,11 @@ try:
 except ImportError:
     from importlib.resources import files
 
-sys.exit(subprocess.call([
-    str(files("okab") / "vega" / "vega-resvg"),
-    *sys.argv[1:]
-]))
+def main():
+    sys.exit(subprocess.call([
+        str(files("okab") / "vega" / "vega-resvg"),
+        *sys.argv[1:]
+    ]))
+
+if __name__ =="__main__":
+    main()

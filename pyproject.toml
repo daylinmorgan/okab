@@ -17,6 +17,10 @@ dependencies = [
 ]
 requires-python = ">=3.7"
 license = {text = "MIT"}
+
+[project.scripts]
+okab = "okab.__main__:main"
+
 [project.optional-dependencies]
 
 [tool.setuptools]
