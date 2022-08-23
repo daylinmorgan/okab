@@ -47,7 +47,7 @@ if (format === "vega") {
 
   if (format === "svg") {
     view
-      .toSVG()
+      .toSVG(embedOpt.scaleFactor || 1)
       .then(function (result) {
         console.log(JSON.stringify({ result: result }));
       })
@@ -56,7 +56,7 @@ if (format === "vega") {
       });
   } else if (format === "png") {
     view
-      .toSVG()
+      .toSVG(embedOpt.scaleFactor || 1)
       .then(function (result) {
         svg2png(result);
       })
@@ -71,10 +71,6 @@ if (format === "vega") {
 
 async function svg2png(svg) {
   const opts = {
-    fitTo: {
-      mode: "zoom",
-      value: embedOpt.scaleFactor || 1,
-    },
     logLevel: "off",
   };
 
