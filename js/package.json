@@ -1,6 +1,5 @@
 {
   "name": "vega-resvg",
-  "type":"module",
   "bin": "index.js",
   "scripts": {
     "build": "pkg . --no-bytecode --public-packages \"*\" --public -C GZip"
