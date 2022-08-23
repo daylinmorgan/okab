@@ -1,4 +1,5 @@
 const fs = require("fs");
+const path = require("path");
 const vega = require("vega");
 const vegaLite = require("vega-lite");
 const { Resvg } = require("@resvg/resvg-js");
@@ -72,6 +73,11 @@ if (format === "vega") {
 async function svg2png(svg) {
   const opts = {
     logLevel: "off",
+    font: {
+      fontDirs: [path.join(path.dirname(process.execPath), "fonts"),path.join(__dirname,'./assets/fonts')],
+      loadSystemFonts: true, // It will be faster to disable loading system fonts.
+      defaultFontFamily: "Robot",
+    }, // todo: make font loading conditional and configurable
   };
 
   const resvg = new Resvg(svg, opts);
