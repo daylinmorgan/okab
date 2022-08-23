@@ -12,7 +12,7 @@ authors = [
 ]
 dependencies = [
     'altair >=4.2',
-    'altair_saver > 0.5',
+    'altair_saver >=0.5',
     'importlib-resources>=5.9.0; python_version < "3.9"',
 ]
 requires-python = ">=3.7"
@@ -23,7 +23,7 @@ license = {text = "MIT"}
 packages = ["okab","okab.vega"]
 
 [tool.setuptools.dynamic]
-version = { attr = "okab.__version__" }
+version = { attr = "okab._version.__version__" }
 
 [tool.setuptools.package-data]
 okab = ["vega/*"]
