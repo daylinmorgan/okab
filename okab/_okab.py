@@ -1,9 +1,9 @@
 import base64
+import json
 import subprocess
+import sys
 import tempfile
 from typing import Any, Dict, List, Optional
-import json
-import sys
 
 if sys.version_info >= (3, 9):
     from importlib.resources import files
@@ -11,9 +11,8 @@ else:
     from importlib_resources import files
 
 import altair as alt
-
-from altair_saver.types import JSONDict, MimebundleContent
 from altair_saver.savers import Saver
+from altair_saver.types import JSONDict, MimebundleContent
 
 
 class JavascriptError(RuntimeError):

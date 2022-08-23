@@ -28,6 +28,7 @@ examples:
 
 .PHONY: lint
 lint:
+	isort .
 	black .
 	flake8 .
 	mypy .

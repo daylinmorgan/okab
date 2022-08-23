@@ -7,11 +7,12 @@ try:
 except ImportError:
     from importlib.resources import files
 
-def main():
-    sys.exit(subprocess.call([
-        str(files("okab") / "vega" / "vega-resvg"),
-        *sys.argv[1:]
-    ]))
 
-if __name__ =="__main__":
+def main():
+    sys.exit(
+        subprocess.call([str(files("okab") / "vega" / "vega-resvg"), *sys.argv[1:]])
+    )
+
+
+if __name__ == "__main__":
     main()
