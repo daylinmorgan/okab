@@ -3,12 +3,12 @@ import subprocess
 import tempfile
 from typing import Any, Dict, List, Optional
 import json
+import sys
 
-try:
-    # python < 3.9
-    from importlib_resources import files
-except ImportError:
+if sys.version_info >= (3, 9):
     from importlib.resources import files
+else:
+    from importlib_resources import files
 
 import altair as alt
 
@@ -65,8 +65,8 @@ def vega(spec: JSONDict, opt: Optional[JSONDict], fmt: str) -> JSONDict:
         raise JavascriptError(f"Problems parsing vega output:\n {p.stdout}")
 
 
-class ResvgSaver(Saver):
-    """Save charts using vega-resvg."""
+class OkabSaver(Saver):
+    """Save charts using okab w/ vega & resvg."""
 
     valid_formats: Dict[str, List[str]] = {
         "vega": ["png", "svg"],

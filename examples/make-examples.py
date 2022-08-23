@@ -1,4 +1,4 @@
-from okab import ResvgSaver
+from okab import OkabSaver
 from altair_saver import save
 
 from charts import plot_bar, plot_map, plot_area, plot_paths
