@@ -1,5 +1,9 @@
 PLATFORMS := linux_x86_64 macosx_10_14_x86_64 win_amd64
 
+.PHONY: lint
+lint:
+	prettier -w .
+
 .PHONY: build
 build:
 	pkg index.js --no-bytecode --public-packages "*" --public -C GZip --target linux -o vega-resvg
