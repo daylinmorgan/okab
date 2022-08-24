@@ -30,7 +30,7 @@ packages = ["okab","okab.vega"]
 version = { attr = "okab._version.__version__" }
 
 [tool.setuptools.package-data]
-okab = ["vega/*"]
+okab = ["vega/**/*"]
 
 [tool.pdm]
 version = { source = "file", path = "okab/_version.py" }
@@ -47,4 +47,4 @@ dev = [
 ]
 
 [tool.mypy]
-exclude = ["build/","examples"]
+exclude = ["build/","examples","venv","scripts"]
