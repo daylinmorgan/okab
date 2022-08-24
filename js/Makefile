@@ -1,4 +1,4 @@
-PLATFORMS := linux_x86_64 macosx_10_14_x86_64 win_amd64
+PLATFORMS = manylinux_2_17_x86_64 macosx_10_14_x86_64 win_amd64
 
 .PHONY: lint
 lint:
@@ -12,7 +12,7 @@ build:
 build-all:
 	pkg index.js --no-bytecode --public-packages "*" --public -C GZip --out-path dist/
 
-dist/vega-resvg-linux_x86_64:
+dist/vega-resvg-manylinux_2_17_x86_64:
 	pkg . --no-bytecode --public-packages "*" --public -C GZip -t node18-linux-x64 -o $@
 
 dist/vega-resvg-macosx_10_14_x86_64:

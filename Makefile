@@ -1,4 +1,4 @@
-PLATFORMS = linux_x86_64 macosx_10_14_x86_64 win_amd64
+PLATFORMS = manylinux_2_17_x86_64 macosx_10_14_x86_64 win_amd64
 #VERSION := $(shell grep __version__ okab/_version.py | awk -F'"' '{print $$2}')
 VERSION := $(shell python -m setuptools_scm)
 WHEELBASE := dist/okab-$(VERSION)-py3-none-
