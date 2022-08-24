@@ -51,7 +51,7 @@ if (embedOpt.mode === "vega-lite") {
 
 if (format === "vega") {
   if (argv.output) {
-    fs.writeFileSync(argv.output, spec);
+    fs.writeFileSync(argv.output, JSON.stringify(spec));
   } else {
     console.log(JSON.stringify({ result: spec }));
   }
