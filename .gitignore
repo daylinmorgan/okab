@@ -624,4 +624,4 @@ examples/*
 
 # handled by setuptools_scm
 okab/_version.py
-
+okab/vega/fonts/*

@@ -1,3 +1,4 @@
+FONT_RELEASE = https://github.com/liberationfonts/liberation-fonts/files/7261482/liberation-fonts-ttf-2.1.5.tar.gz
 PLATFORMS = manylinux_2_17_x86_64 macosx_10_14_x86_64 win_amd64
 #VERSION := $(shell grep __version__ okab/_version.py | awk -F'"' '{print $$2}')
 VERSION := $(shell python -m setuptools_scm)
@@ -9,6 +10,9 @@ test:
 
 .PHONY: wheels
 wheels: $(WHEELS)
+
+.PHONY: linux-wheel
+linux-wheel: $(WHEELBASE)manylinux_2_17_x86_64.whl
 
 $(WHEELBASE)%.whl:
 	@echo "==> Building $* Wheel <=="
@@ -22,6 +26,13 @@ okab/vega/vega-resvg: js/index.js
 	$(MAKE) -C js build
 	rm -f okab/vega/vega-resvg
 	cp js/vega-resvg okab/vega/vega-resvg
+
+.PHONY: fonts
+fonts:
+	mkdir okab/vega/fonts -p
+	wget -O okab/vega/fonts/liberation.tar.gz $(FONT_RELEASE)
+	tar -xvf okab/vega/fonts/liberation.tar.gz --directory=okab/vega/fonts
+	rm okab/vega/fonts/liberation.tar.gz
 
 .PHONY: examples
 examples:
