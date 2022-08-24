@@ -7,33 +7,15 @@ name = "okab"
 dynamic = ["version"]
 description = "pkg + resvg + vega + altair = static beauty"
 readme = "README.md"
-authors = [
-    {name = "Daylin Morgan", email = "daylinmorgan@gmail.com"},
-]
-dependencies = [
-    'importlib-resources>=5.9.0; python_version < "3.9"',
-]
+authors = [{ name = "Daylin Morgan", email = "daylinmorgan@gmail.com" }]
+dependencies = ['importlib-resources>=5.9.0; python_version < "3.9"']
 requires-python = ">=3.7"
-license = {text = "MIT"}
+license = { text = "MIT" }
 
 [project.scripts]
 okab = "okab.__main__:main"
 
 [project.optional-dependencies]
-
-[tool.setuptools]
-packages = ["okab","okab.vega"]
-
-[tool.setuptools.package-data]
-okab = ["vega/**/*"]
-
-[tool.setuptools_scm]
-write_to = "okab/_version.py"
-
-# [tool.pdm]
-# version = { source = "file", path = "okab/_version.py" }
-
-[tool.pdm.dev-dependencies]
 dev = [
     "black>=22.6.0",
     "flake8>=5.0.4",
@@ -42,7 +24,17 @@ dev = [
     "altair-saver>=0.5.0",
     "build>=0.8.0",
     "vega-datasets>=0.9.0",
+    "setuptools-scm>=7.0.5",
 ]
 
+[tool.setuptools]
+packages = ["okab", "okab.vega"]
+
+[tool.setuptools.package-data]
+okab = ["vega/**/*"]
+
+[tool.setuptools_scm]
+write_to = "okab/_version.py"
+
 [tool.mypy]
-exclude = ["build/","examples","venv","scripts"]
+exclude = ["build/", "examples", "venv", "scripts", "dist"]
