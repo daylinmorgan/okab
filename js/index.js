@@ -89,15 +89,15 @@ if (format === "vega") {
 async function svg2png(svg) {
   const opts = {
     logLevel: argv.log,
-    font: {
-      // two paths are included for now for debugging purposes
-      fontDirs: [
-        path.join(path.dirname(process.execPath), "fonts"),
-        path.join(__dirname, "./assets/fonts"),
-      ],
-      loadSystemFonts: true,
-      defaultFontFamily: "Robot",
-    }, // todo: make font loading conditional and configurable
+    // font: {
+    //   // two paths are included for now for debugging purposes
+    //   fontDirs: [
+    //     path.join(path.dirname(process.execPath), "fonts"),
+    //     path.join(__dirname, "./assets/fonts"),
+    //   ],
+    //   loadSystemFonts: true,
+    //   defaultFontFamily: "Roboto",
+    // }, // todo: make font loading conditional and configurable
   };
 
   const resvg = new Resvg(svg, opts);
