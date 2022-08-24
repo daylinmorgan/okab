@@ -622,5 +622,6 @@ examples/*
 !/examples/make-examples.py
 !/examples/charts.py
 
-okab/_version.py # handled by setuptools_scm
+# handled by setuptools_scm
+okab/_version.py
 
