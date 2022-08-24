@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "okab"
 dynamic = ["version"]
-description = "pkg + resvg + vega + altair = static beauty"
+description = "altair + okab = static beauty"
 readme = "README.md"
 authors = [{ name = "Daylin Morgan", email = "daylinmorgan@gmail.com" }]
 dependencies = ['importlib-resources>=5.9.0; python_version < "3.9"']
