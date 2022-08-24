@@ -615,10 +615,12 @@ cython_debug/
 
 # End of https://www.toptal.com/developers/gitignore/api/python,node
 
-altair_saver_resvg/src/*
 # ignore binary
 vega-resvg
 
 examples/*
 !/examples/make-examples.py
 !/examples/charts.py
+
+okab/_version.py # handled by setuptools_scm
+

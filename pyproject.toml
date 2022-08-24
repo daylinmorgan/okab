@@ -11,8 +11,6 @@ authors = [
     {name = "Daylin Morgan", email = "daylinmorgan@gmail.com"},
 ]
 dependencies = [
-    'altair >=4.2',
-    'altair_saver >=0.5',
     'importlib-resources>=5.9.0; python_version < "3.9"',
 ]
 requires-python = ">=3.7"
@@ -26,14 +24,14 @@ okab = "okab.__main__:main"
 [tool.setuptools]
 packages = ["okab","okab.vega"]
 
-[tool.setuptools.dynamic]
-version = { attr = "okab._version.__version__" }
-
 [tool.setuptools.package-data]
 okab = ["vega/**/*"]
 
-[tool.pdm]
-version = { source = "file", path = "okab/_version.py" }
+[tool.setuptools_scm]
+write_to = "okab/_version.py"
+
+# [tool.pdm]
+# version = { source = "file", path = "okab/_version.py" }
 
 [tool.pdm.dev-dependencies]
 dev = [
