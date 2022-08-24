@@ -8,17 +8,25 @@ const yargs = require("yargs/yargs");
 var argv = yargs(process.argv.slice(2))
   .usage("Usage: vega-resvg --spec [file] --opts [json opts] --format [format]")
   .option("spec", {
-    describe: "file with vega/vega-lite json",
+    describe: "vega/vega-lite json",
   })
   .option("opts", {
-    describe: "json string with embedOpts",
+    describe: "embedOpts json string",
   })
   .option("format", {
     describe: "output data type",
     choices: ["vega", "svg", "png"],
   })
+  .option("output", {
+    describe: "output file",
+  })
+  .option("log", {
+    describe: "log level of resvg",
+    choices: ["off", "error", "warn", "info", "debug", "trace"],
+    default: "off",
+  })
   .demandOption(["spec", "opts", "format"])
-  .wrap(72)
+  .wrap(88)
   .version(false).argv;
 
 try {
@@ -42,7 +50,11 @@ if (embedOpt.mode === "vega-lite") {
 }
 
 if (format === "vega") {
-  console.log(JSON.stringify({ result: spec }));
+  if (argv.output) {
+    fs.writeFileSync(argv.output, spec);
+  } else {
+    console.log(JSON.stringify({ result: spec }));
+  }
 } else {
   var view = new vega.View(vega.parse(spec), { renderer: "none" });
 
@@ -50,7 +62,11 @@ if (format === "vega") {
     view
       .toSVG(embedOpt.scaleFactor || 1)
       .then(function (result) {
-        console.log(JSON.stringify({ result: result }));
+        if (argv.output) {
+          fs.writeFileSync(argv.output, result);
+        } else {
+          console.log(JSON.stringify({ result: result }));
+        }
       })
       .catch(function (err) {
         console.log(JSON.stringify({ error: err.toString() }));
@@ -72,10 +88,14 @@ if (format === "vega") {
 
 async function svg2png(svg) {
   const opts = {
-    logLevel: "off",
+    logLevel: argv.log,
     font: {
-      fontDirs: [path.join(path.dirname(process.execPath), "fonts"),path.join(__dirname,'./assets/fonts')],
-      loadSystemFonts: true, // It will be faster to disable loading system fonts.
+      // two paths are included for now for debugging purposes
+      fontDirs: [
+        path.join(path.dirname(process.execPath), "fonts"),
+        path.join(__dirname, "./assets/fonts"),
+      ],
+      loadSystemFonts: true,
       defaultFontFamily: "Robot",
     }, // todo: make font loading conditional and configurable
   };
@@ -84,9 +104,19 @@ async function svg2png(svg) {
   const pngData = resvg.render();
   const pngBuffer = pngData.asPng();
   const dataImagePrefix = `data:image/png;base64,`;
-  console.log(
-    JSON.stringify({
-      result: `${dataImagePrefix}${pngBuffer.toString("base64")}`,
-    })
-  );
+
+  if (argv.output) {
+    try {
+      fs.writeFileSync(argv.output, pngBuffer);
+    } catch (error) {
+      console.log(JSON.stringify({ error: error.toString() }));
+      process.exit(1);
+    }
+  } else {
+    console.log(
+      JSON.stringify({
+        result: `${dataImagePrefix}${pngBuffer.toString("base64")}`,
+      })
+    );
+  }
 }

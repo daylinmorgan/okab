@@ -6,13 +6,11 @@ lint:
 
 .PHONY: build
 build:
-	pkg index.js --no-bytecode --public-packages "*" --public -C GZip --target linux -o vega-resvg
-
+	pkg . --no-bytecode --public-packages "*" --public -C GZip --target linux -o vega-resvg
 
 .PHONY: build-all
 build-all:
 	pkg index.js --no-bytecode --public-packages "*" --public -C GZip --out-path dist/
-
 
 dist/vega-resvg-linux_x86_64:
 	pkg . --no-bytecode --public-packages "*" --public -C GZip -t node18-linux-x64 -o $@
