@@ -42,9 +42,9 @@ examples:
 
 .PHONY: lint
 lint:
-	isort .
-	black .
-	flake8 .
+	isort okab/
+	black okab/
+	flake8 okab/
 	mypy okab/
 
 .PHONY:clean

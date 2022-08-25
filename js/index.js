@@ -6,26 +6,41 @@ const { Resvg } = require("@resvg/resvg-js");
 const yargs = require("yargs/yargs");
 
 var argv = yargs(process.argv.slice(2))
-  .usage("Usage: vega-resvg --spec [file] --opts [json opts] --format [format]")
+  .usage(
+    "Usage: vega-resvg --spec [vega-json|vega-lite-json] --format [format]"
+  )
   .option("spec", {
     describe: "vega/vega-lite json",
+    demandOption: true,
   })
-  .option("opts", {
-    describe: "embedOpts json string",
+  .option("scale", {
+    alias: "s",
+    describe: "output resolution scale factor",
+    default: 1,
+    type: "number",
+  })
+  .option("mode", {
+    describe: "schema type of json",
+    choices: ["vega", "vega-lite"],
+    default: "vega-lite",
+    type: "string",
   })
   .option("format", {
+    alias: "f",
     describe: "output data type",
     choices: ["vega", "svg", "png"],
+    demandOption: true,
+    type: "string",
   })
   .option("output", {
     describe: "output file",
   })
-  .option("log", {
+  .option("loglevel", {
+    alias: "l",
     describe: "log level of resvg",
     choices: ["off", "error", "warn", "info", "debug", "trace"],
     default: "off",
   })
-  .demandOption(["spec", "opts", "format"])
   .wrap(88)
   .version(false).argv;
 
@@ -36,10 +51,7 @@ try {
   process.exit(1);
 }
 
-const embedOpt = JSON.parse(argv.opts);
-const format = argv.format;
-
-if (embedOpt.mode === "vega-lite") {
+if (argv.mode === "vega-lite") {
   try {
     const compiled = vegaLite.compile(spec);
     spec = compiled.spec;
@@ -49,7 +61,7 @@ if (embedOpt.mode === "vega-lite") {
   }
 }
 
-if (format === "vega") {
+if (argv.format === "vega") {
   if (argv.output) {
     fs.writeFileSync(argv.output, JSON.stringify(spec));
   } else {
@@ -58,9 +70,9 @@ if (format === "vega") {
 } else {
   var view = new vega.View(vega.parse(spec), { renderer: "none" });
 
-  if (format === "svg") {
+  if (argv.format === "svg") {
     view
-      .toSVG(embedOpt.scaleFactor || 1)
+      .toSVG(argv.scale)
       .then(function (result) {
         if (argv.output) {
           fs.writeFileSync(argv.output, result);
@@ -71,9 +83,9 @@ if (format === "vega") {
       .catch(function (err) {
         console.log(JSON.stringify({ error: err.toString() }));
       });
-  } else if (format === "png") {
+  } else if (argv.format === "png") {
     view
-      .toSVG(embedOpt.scaleFactor || 1)
+      .toSVG(argv.scale)
       .then(function (result) {
         svg2png(result);
       })
@@ -88,7 +100,7 @@ if (format === "vega") {
 
 async function svg2png(svg) {
   const opts = {
-    logLevel: argv.log,
+    logLevel: argv.loglevel,
     font: {
       // two paths are included for now for debugging purposes
       fontDirs: [
@@ -96,7 +108,7 @@ async function svg2png(svg) {
         path.join(__dirname, "./assets/fonts"),
       ],
       loadSystemFonts: true,
-      defaultFontFamily: "Liberation Sans"
+      defaultFontFamily: "Liberation Sans",
     }, // todo: make font loading conditional and configurable
   };
 

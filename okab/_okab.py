@@ -3,7 +3,7 @@ import json
 import subprocess
 import sys
 import tempfile
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
 
 if sys.version_info >= (3, 9):
     from importlib.resources import files
@@ -23,21 +23,24 @@ class ExecutionError(RuntimeError):
     pass
 
 
-def vega(spec: JSONDict, opt: Optional[JSONDict], fmt: str) -> JSONDict:
+def vega(spec: JSONDict, fmt: str, mode: str, scale: Union[float, int]) -> JSONDict:
     with tempfile.NamedTemporaryFile() as fp:
         fp.write(json.dumps(spec).encode())
         fp.seek(0)
 
         # TODO: verify executable is available and executable
-        cmd = (
+        cmd = [
             str(files("okab") / "vega" / "vega-resvg"),
             "--spec",
             fp.name,
-            "--opts",
-            json.dumps(opt),
             "--format",
             fmt,
-        )
+            "--mode",
+            mode,
+        ]
+
+        if fmt == "png":
+            cmd.extend(["--scale", str(scale)])
 
         try:
             p = subprocess.run(
@@ -100,8 +103,8 @@ class OkabSaver(Saver):
     def _extract(self, fmt: str) -> MimebundleContent:
 
         opt = self._embed_options.copy()
-        opt["mode"] = self._mode
-        result = vega(self._spec, opt, fmt)
+
+        result = vega(self._spec, fmt, self._mode, opt.get("scaleFactor", 1))
 
         if "error" in result:
             raise JavascriptError(result["error"])
