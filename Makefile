@@ -4,6 +4,7 @@ PLATFORMS = manylinux_2_17_x86_64 macosx_10_14_x86_64 win_amd64
 VERSION := $(shell python -m setuptools_scm)
 WHEELBASE := dist/okab-$(VERSION)-py3-none-
 WHEELS = $(addprefix $(WHEELBASE),$(addsuffix .whl,$(PLATFORMS)))
+TARGET ?= manylinux_2_17_x86_64
 
 test:
 	echo $(WHEELS)
@@ -23,9 +24,9 @@ $(WHEELBASE)%.whl:
 	@python setup.py bdist_wheel -p $*
 
 okab/vega/vega-resvg: js/index.js
-	$(MAKE) -C js build
+	$(MAKE) -C js dist/vega-resvg-$(TARGET)
 	rm -f okab/vega/vega-resvg
-	cp js/vega-resvg okab/vega/vega-resvg
+	cp js/dist/vega-resvg-$(TARGET) okab/vega/vega-resvg
 
 .PHONY: fonts
 fonts:
