@@ -65,8 +65,13 @@ pkg index.js --no-bytecode --public-packages "*" --public -C GZip --target linux
 cp vega-resvg ../okab/vega/vega-resvg
 ```
 
-Finally, build the wheel:
+Or you can specify your target platform and use make. See the `Makefile` for platform names.
 
+```bash
+make okab/vega/vega-resvg TARGET=win_amd64
+```
+
+Finally, build the wheel:
 ```
 python setup.py bdist_wheel
 ```
@@ -80,6 +85,7 @@ python make-examples.py
 
 To cross-compile wheels for windows, mac(x64) and linux:
 ```
+make fonts
 cd js
 ./get-binaries.sh
 cd ..
