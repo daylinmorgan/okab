@@ -2,6 +2,29 @@
 
 altair + okab = static beauty
 
+## Install
+
+`Okab` is available with `pip` but it is currently in an alpha release as the API is under active development.
+Wheels are also available from the [releases](https://github.com/daylinmorgan/okab/releases).
+
+```bash
+pip install okab
+```
+
+## Usage
+
+To get started using `okab` you can directly access it's `altair_saver` compatible method.
+*Note*: `Okab` at present still has a runtime dependency on `altair_saver` but this may change in future releases.
+
+```python
+import altair as alt
+from okab import OkabSaver
+
+...
+
+chart.save("chart.png",method=OkabSaver,scale_factor=2)
+```
+
 ## How does it work?
 
 We leverage `vercel/pkg` and distribute self-contained platform-specific executables within the python wheels.
