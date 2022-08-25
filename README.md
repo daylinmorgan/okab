@@ -92,7 +92,7 @@ make wheels
   <tr>
     <th> svg </th>
     <th> png </th>
-    <th> png (scale factor 2)</th>
+    <th> png (scale factor 5)</th>
     </tr>
     <tr>
     <td><img src="https://raw.githubusercontent.com/daylinmorgan/okab/main/assets/example-bar.svg" height = "300"></td>
