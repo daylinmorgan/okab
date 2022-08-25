@@ -625,3 +625,7 @@ examples/*
 # handled by setuptools_scm
 okab/_version.py
 okab/vega/fonts/*
+
+js/examples/*
+!js/examples/Makefile
+!js/examples/example.vl.json
