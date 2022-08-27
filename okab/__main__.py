@@ -8,7 +8,7 @@ else:
 
 def main():
     sys.exit(
-        subprocess.call([str(files("okab") / "vega" / "vega-resvg"), *sys.argv[1:]])
+        subprocess.call([str(files("okab") / "bin" / "okab"), *sys.argv[1:]])
     )
 
 

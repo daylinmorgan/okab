@@ -1,5 +1,4 @@
-CMD := node ../index.js --spec ./example.vl.json --opts '{"mode":"vega-lite","scale":1}'
-
+CMD := node .. -i ./example.vl.json
 .PHONY: all
 all: svg png vega
 

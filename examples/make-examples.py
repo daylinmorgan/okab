@@ -1,7 +1,7 @@
 from altair_saver import save
 from charts import plot_area, plot_bar, plot_map, plot_paths
 
-from okab import OkabSaver
+from okab.saver import OkabSaver
 
 
 def main():

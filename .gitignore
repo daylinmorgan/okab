@@ -616,7 +616,6 @@ cython_debug/
 # End of https://www.toptal.com/developers/gitignore/api/python,node
 
 # ignore binary
-vega-resvg
 
 examples/*
 !/examples/make-examples.py
@@ -624,7 +623,8 @@ examples/*
 
 # handled by setuptools_scm
 okab/_version.py
-okab/vega/fonts/*
+
+okab/bin/*
 
 js/examples/*
 !js/examples/Makefile

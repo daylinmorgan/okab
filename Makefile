@@ -9,30 +9,52 @@ TARGET ?= manylinux_2_17_x86_64
 .PHONY: wheels
 ## generate all of the wheels
 wheels: $(WHEELS)
+	@rm okab/bin/okab
+
+
+.PHONY: install
+## install the package in the local venv
+install: okab/bin/okab
+	source ./venv/bin/activate; \
+		pip install -e .
+
+.PHONY: bootstrap
+## bootstrap the project/dev environemnt
+bootstrap: venv npm fonts
+
+.PHONY: venv
+venv:
+	python -m venv venv
+	source ./venv/bin/activate; \
+		pip install -e ".[dev]"
+
+.PHONY: npm
+npm:
+	npm install --prefix js/
 
 .PHONY: linux-wheel
 linux-wheel: $(WHEELBASE)manylinux_2_17_x86_64.whl
 
 $(WHEELBASE)%.whl:
 	@echo "==> Building $* Wheel <=="
-	@rm -f okab/vega/vega-resvg
+	@rm -f okab/bin/okab
 	@rm -rf build
-	$(MAKE) -C js dist/vega-resvg-$*
-	@cp js/dist/vega-resvg-$* okab/vega/vega-resvg
+	$(MAKE) -C js dist/okab-$*
+	@cp js/dist/okab-$* okab/bin/okab
 	@python setup.py bdist_wheel -p $*
 
-okab/vega/vega-resvg: js/index.js
-	$(MAKE) -C js dist/vega-resvg-$(TARGET)
-	rm -f okab/vega/vega-resvg
-	cp js/dist/vega-resvg-$(TARGET) okab/vega/vega-resvg
+okab/bin/okab:
+	$(MAKE) -C js dist/okab-$(TARGET)
+	rm -f okab/bin/okab
+	cp js/dist/okab-$(TARGET) okab/bin/okab
 
 .PHONY: fonts
 ## download liberation sans
 fonts:
-	mkdir okab/vega/fonts -p
-	wget -O okab/vega/fonts/liberation.tar.gz $(FONT_RELEASE)
-	tar -xvf okab/vega/fonts/liberation.tar.gz --directory=okab/vega/fonts
-	rm okab/vega/fonts/liberation.tar.gz
+	mkdir okab/bin/fonts -p
+	wget -O okab/bin/fonts/liberation.tar.gz $(FONT_RELEASE)
+	tar -xvf okab/bin/fonts/liberation.tar.gz --directory=okab/bin/fonts
+	rm okab/bin/fonts/liberation.tar.gz
 
 .PHONY: examples
 ## regenerate example charts
@@ -41,7 +63,7 @@ examples:
 	cd examples && python make-examples.py
 
 .PHONY: lint
-## run formatting, linting, and typechecks 
+## run formatting, linting, and typechecks
 lint:
 	isort okab/
 	black okab/
@@ -54,7 +76,7 @@ clean:
 	rm -rf build
 	rm -rf dist
 	rm -rf *.egg-info
-	rm -rf js/vega-resvg
+	rm -rf js/okab
 
 
 .PHONY: help

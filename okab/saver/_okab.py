@@ -30,13 +30,13 @@ def vega(spec: JSONDict, fmt: str, mode: str, scale: Union[float, int]) -> JSOND
 
         # TODO: verify executable is available and executable
         cmd = [
-            str(files("okab") / "vega" / "vega-resvg"),
-            "--spec",
+            str(files("okab") / "bin" / "okab"),
+            "--input",
             fp.name,
             "--format",
             fmt,
             "--mode",
-            mode,
+            f"{mode}-altair",
         ]
 
         if fmt == "png":
@@ -61,10 +61,7 @@ def vega(spec: JSONDict, fmt: str, mode: str, scale: Union[float, int]) -> JSOND
             f"failed to execute vega-resvg, see below: \n{p.stdout}\n{p.stderr}"
         )
 
-    try:
-        return json.loads(p.stdout)
-    except json.decoder.JSONDecodeError:
-        raise JavascriptError(f"Problems parsing vega output:\n {p.stdout}")
+    return p.stdout
 
 
 class OkabSaver(Saver):
@@ -104,11 +101,8 @@ class OkabSaver(Saver):
 
         opt = self._embed_options.copy()
 
-        result = vega(self._spec, fmt, self._mode, opt.get("scaleFactor", 1))
+        return vega(self._spec, fmt, self._mode, opt.get("scaleFactor", 1))
 
-        if "error" in result:
-            raise JavascriptError(result["error"])
-        return result["result"]
 
     def _serialize(self, fmt: str, content_type: str) -> MimebundleContent:
         out = self._extract(fmt)

@@ -1,9 +1,7 @@
 {
-  "name": "vega-resvg",
-  "bin": "index.js",
-  "scripts": {
-    "build": "pkg . --no-bytecode --public-packages \"*\" --public -C GZip"
-  },
+  "name": "okab",
+  "bin": "bin/index.js",
+  "main": "bin/index.js",
   "dependencies": {
     "@resvg/resvg-js": "^2.1.0",
     "vega": "^5.22.1",

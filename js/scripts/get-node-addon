@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+ADDON="@resvg/resvg-js-$1"
+
+npm install --silent --no-save --force $ADDON
+# remove leftover of unneccesary node addons
+find ./node_modules/@resvg/resvg-js-* -type d ! -wholename "*${ADDON}" -exec rm -rf {} +
