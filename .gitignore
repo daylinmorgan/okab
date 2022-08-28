@@ -626,6 +626,7 @@ okab/_version.py
 
 okab/bin/*
 
+js/src/version.json
 js/examples/*
 !js/examples/Makefile
 !js/examples/example.vl.json

@@ -1,4 +1,5 @@
 // modified from vega-lite-cli
+const {version} = require("./version.json");
 
 exports.args = () => {
   const helpText = `Usage: okab -i [vega-json|vega-lite-json] -f [format]
@@ -86,7 +87,7 @@ exports.args = () => {
 
   args.alias("h", "help").help("help");
 
-  return args.version().strict().argv;
+  return args.version(version).strict().argv;
 };
 
 exports.parseFmt = (arg) => {

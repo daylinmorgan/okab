@@ -8,9 +8,8 @@ TARGET ?= manylinux_2_17_x86_64
 
 .PHONY: wheels
 ## generate all of the wheels
-wheels: $(WHEELS)
-	@rm okab/bin/okab
-
+wheels: version-js $(WHEELS)
+	@rm -f okab/bin/okab
 
 .PHONY: install
 ## install the package in the local venv
@@ -33,7 +32,7 @@ npm:
 	npm install --prefix js/
 
 .PHONY: single-wheel
-single-wheel: $(WHEELBASE)$(TARGET).whl
+single-wheel: version-js $(WHEELBASE)$(TARGET).whl
 
 $(WHEELBASE)%.whl:
 	@echo "==> Building $* Wheel <=="
@@ -47,6 +46,10 @@ okab/bin/okab:
 	$(MAKE) -C js dist/okab-$(TARGET)
 	rm -f okab/bin/okab
 	cp js/dist/okab-$(TARGET) okab/bin/okab
+
+.PHONY: version-js
+version-js:
+	@echo '{"version":"$(VERSION)"}' > js/src/version.json
 
 .PHONY: fonts
 ## download liberation sans
