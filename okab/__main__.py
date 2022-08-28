@@ -1,12 +1,10 @@
 import subprocess
 import sys
 
-try:
-    # python < 3.9
-    from importlib_resources import files
-except ImportError:
+if sys.version_info >= (3, 9):
     from importlib.resources import files
-
+else:
+    from importlib_resources import files
 
 def main():
     sys.exit(
