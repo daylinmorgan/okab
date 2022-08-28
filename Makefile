@@ -6,10 +6,8 @@ WHEELBASE := dist/okab-$(VERSION)-py3-none-
 WHEELS = $(addprefix $(WHEELBASE),$(addsuffix .whl,$(PLATFORMS)))
 TARGET ?= manylinux_2_17_x86_64
 
-test:
-	echo $(WHEELS)
-
 .PHONY: wheels
+## generate all of the wheels
 wheels: $(WHEELS)
 
 .PHONY: linux-wheel
@@ -29,6 +27,7 @@ okab/vega/vega-resvg: js/index.js
 	cp js/dist/vega-resvg-$(TARGET) okab/vega/vega-resvg
 
 .PHONY: fonts
+## download liberation sans
 fonts:
 	mkdir okab/vega/fonts -p
 	wget -O okab/vega/fonts/liberation.tar.gz $(FONT_RELEASE)
@@ -36,11 +35,13 @@ fonts:
 	rm okab/vega/fonts/liberation.tar.gz
 
 .PHONY: examples
+## regenerate example charts
 examples:
 	rm -rf ./examples/*.{svg,png}
 	cd examples && python make-examples.py
 
 .PHONY: lint
+## run formatting, linting, and typechecks 
 lint:
 	isort okab/
 	black okab/
@@ -48,8 +49,18 @@ lint:
 	mypy okab/
 
 .PHONY:clean
+## clean build outputs
 clean:
 	rm -rf build
 	rm -rf dist
 	rm -rf *.egg-info
 	rm -rf js/vega-resvg
+
+
+.PHONY: help
+help: ## try `make help`
+	@awk '/^[a-z.A-Z_-]+:/ { helpMessage = match(lastLine, /^##(.*)/); \
+		if (helpMessage) { helpCommand = substr($$1, 0, index($$1, ":")-1); \
+		helpMessage = substr(lastLine, RSTART + 3, RLENGTH); \
+		printf "\033[36m%-9s\033[0m - %s\n", \
+		helpCommand, helpMessage;}} { lastLine = $$0 }' $(MAKEFILE_LIST)
