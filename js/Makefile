@@ -1,7 +1,6 @@
 PLATFORMS = manylinux_2_17_x86_64 macosx_10_14_x86_64 win_amd64
 BINARIES := $(addprefix dist/okab-,$(PLATFORMS))
 PKG = pkg . --no-bytecode --public-packages "*" --public --no-native-build -C GZip
-#-C GZip
 
 .PHONY: all
 all: $(BINARIES)

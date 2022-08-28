@@ -3,7 +3,7 @@ PLATFORMS = manylinux_2_17_x86_64 macosx_10_14_x86_64 win_amd64
 #VERSION := $(shell grep __version__ okab/_version.py | awk -F'"' '{print $$2}')
 VERSION := $(shell python -m setuptools_scm)
 WHEELBASE := dist/okab-$(VERSION)-py3-none-
-WHEELS = $(addprefix $(WHEELBASE),$(addsuffix .whl,$(PLATFORMS)))
+WHEELS := $(foreach platform,$(PLATFORMS), $(WHEELBASE)$(platform).whl)
 TARGET ?= manylinux_2_17_x86_64
 
 .PHONY: wheels
@@ -32,8 +32,8 @@ venv:
 npm:
 	npm install --prefix js/
 
-.PHONY: linux-wheel
-linux-wheel: $(WHEELBASE)manylinux_2_17_x86_64.whl
+.PHONY: single-wheel
+single-wheel: $(WHEELBASE)$(TARGET).whl
 
 $(WHEELBASE)%.whl:
 	@echo "==> Building $* Wheel <=="
@@ -50,7 +50,9 @@ okab/bin/okab:
 
 .PHONY: fonts
 ## download liberation sans
-fonts:
+fonts: okab/bin/fonts
+
+okab/bin/fonts:
 	mkdir okab/bin/fonts -p
 	wget -O okab/bin/fonts/liberation.tar.gz $(FONT_RELEASE)
 	tar -xvf okab/bin/fonts/liberation.tar.gz --directory=okab/bin/fonts
@@ -78,6 +80,11 @@ clean:
 	rm -rf *.egg-info
 	rm -rf js/okab
 
+.PHONY: deep-clean
+deep-clean:
+	rm -rf okab/bin/{fonts,okab}
+	rm -rf js/dist
+	rm -rf venv
 
 .PHONY: help
 help: ## try `make help`
