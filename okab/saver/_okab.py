@@ -103,7 +103,6 @@ class OkabSaver(Saver):
 
         return vega(self._spec, fmt, self._mode, opt.get("scaleFactor", 1))
 
-
     def _serialize(self, fmt: str, content_type: str) -> MimebundleContent:
         out = self._extract(fmt)
 
