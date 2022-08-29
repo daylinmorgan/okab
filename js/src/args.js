@@ -1,17 +1,14 @@
 // modified from vega-lite-cli
 
 exports.args = () => {
-  //   const helpText = `${type === 'vega' ? 'Compile' : 'Render'} a Vega-Lite specification to ${
-  //     type === 'vega' ? 'Vega' : type.toUpperCase()
-  //   }.
-  // Usage: vl2${type} [vega_json_spec_file] [output_${type}_file]
-  //   If no arguments are provided, reads from stdin.
-  //   If output_${type}_file is not provided, writes to stdout.
-  //   For errors and log messages, writes to stderr.
-  // To load data, you may need to set a base directory:
-  //   For web retrieval, use '-b http://host/data/'.
-  //   For files, use '-b file:///dir/data/' (absolute) or '-b data/' (relative).`;
-  const helpText = "Usage: okab -i [vega-json|vega-lite-json] -f [format]";
+  const helpText = `Usage: okab -i [vega-json|vega-lite-json] -f [format]
+
+    If no -o/--output specified  writes to stdout.
+    For errors and log messages, writes to stderr.
+
+    To load data, you may need to set a base directory:
+    For web retrieval, use '-b http://host/data/'.
+    For files, use '-b file:///dir/data/' (absolute) or '-b data/' (relative).`;
 
   const args = require("yargs").usage(helpText).demand(0);
 
