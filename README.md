@@ -13,16 +13,75 @@ pip install okab
 
 ## Usage
 
+### As an altair-saver method
+
 To get started using `okab` you can directly access it's `altair_saver` compatible method.
-*Note*: `Okab` at present still has a runtime dependency on `altair_saver` but this may change in future releases.
+*Note*: `Okab` as a python library at present still has a runtime dependency on `altair_saver` but this may change in future releases.
 
 ```python
 import altair as alt
-from okab import OkabSaver
+from okab.saver import OkabSaver
 
 ...
 
 chart.save("chart.png",method=OkabSaver,scale_factor=2)
+```
+
+### As a standalone CLI
+
+You can provide either `vega-lite` or `vega` specs, please specify the `--mode` to match your spec type, by default `okab` expects `vega-lite`.
+
+```bash
+okab -i bar.vl.json -o chart.png
+```
+
+See `okab -h` for a list of options.
+
+## Results
+
+<table>
+  <tr>
+    <th> svg </th>
+    <th> png </th>
+    <th> png (scale factor 5)</th>
+    </tr>
+    <tr>
+    <td><img src="https://raw.githubusercontent.com/daylinmorgan/okab/main/assets/example-bar.svg" height = "300"></td>
+    <td><img src="https://raw.githubusercontent.com/daylinmorgan/okab/main/assets/example-bar.png" height = "300"></td>
+    <td><img src="https://raw.githubusercontent.com/daylinmorgan/okab/main/assets/example-bar-scaled.png" height="300"></td>
+  </tr>
+</table>
+
+## Compiling the Wheels
+
+Currently the wheel generation is highly dependent on `make`.
+To get started you can bootstrap your environment.
+This rule will generate a virtual environment,
+install the python and node dependencies,
+and the liberation sans font.
+
+```bash
+make bootstrap
+```
+
+In order to build the wheels we will need to compile the `okab` js backend into standalone executables for all supported targets.
+You can do this ahead of time or as the wheels are built.
+Regardless, you'll need to have installed `vercel/pkg`.
+
+```bash
+npm install -g pkg
+```
+
+If you'd just like to compile a single wheel for your platform you can specify the target to compile the backend.
+
+```bash
+TARGET=macosx_10_14_x86_64 make single-wheel
+```
+
+To generate all supported platform wheels:
+
+```bash
+make wheels
 ```
 
 ## How does it work?
@@ -40,69 +99,11 @@ but `canvas` has a number of system dependencies and caveats that make packaging
 
 Instead, we can take advantage of a different `svg` rendering library [`RazrFalcon/resvg`](https://github.com/RazrFalcon/resvg/) and [`yisibl/resvg-js`](https://github.com/yisibl/resvg-js).
 
-## Building from Source
+## Acknowledgements
 
-For now the wheels will need to be built manually and the executable copied into the appropriate package directory. This would ultimately be handled at build time by `setuptools`.
+This app is made possible by these great open source projects.
 
-### Building `vega-resvg`
-
-To get started you'll need `npm` and `python`.
-
-```bash
-cd js
-npm install
-npm i -g vercel/pkg
-```
-
-In order to cross-compile the executable's you'll need to have available the necessary `resvg-js` node add-ons, you can use `./js/get-binaries.sh` to fetch them all.
-The necessary binary for your own architecture should be pickup by the initial `npm install`.
-
-To build the executable run the following specifying your target, see `vercel/pkg` for info about supported targets.
-Then copy this binary to `okab/vega/vega-resvg`.
-
-```
-pkg index.js --no-bytecode --public-packages "*" --public -C GZip --target linux -o vega-resvg
-cp vega-resvg ../okab/vega/vega-resvg
-```
-
-Or you can specify your target platform and use make. See the `Makefile` for platform names.
-
-```bash
-make okab/vega/vega-resvg TARGET=win_amd64
-```
-
-Finally, build the wheel:
-```
-python setup.py bdist_wheel
-```
-
-You can then install this wheel and test it using the included examples:
-```
-pip install dist/*.whl
-cd examples
-python make-examples.py
-```
-
-To cross-compile wheels for windows, mac(x64) and linux:
-```
-make fonts
-cd js
-./get-binaries.sh
-cd ..
-make wheels
-```
-
-## Results
-
-<table>
-  <tr>
-    <th> svg </th>
-    <th> png </th>
-    <th> png (scale factor 5)</th>
-    </tr>
-    <tr>
-    <td><img src="https://raw.githubusercontent.com/daylinmorgan/okab/main/assets/example-bar.svg" height = "300"></td>
-    <td><img src="https://raw.githubusercontent.com/daylinmorgan/okab/main/assets/example-bar.png" height = "300"></td>
-    <td><img src="https://raw.githubusercontent.com/daylinmorgan/okab/main/assets/example-bar-scaled.png" height="300"></td>
-  </tr>
-</table>
+- [Altair](https://github.com/altair-viz/altair)
+- [Vega Project](https://github.com/vega)
+- [Resvg](https://github.com/RazrFalcon/resvg)
+- [Resvg-js](https://github.com/yisibl/resvg-js)
