@@ -1,24 +1,23 @@
 FONT_RELEASE = https://github.com/liberationfonts/liberation-fonts/files/7261482/liberation-fonts-ttf-2.1.5.tar.gz
 PLATFORMS = manylinux_2_17_x86_64 macosx_10_14_x86_64 win_amd64
-#VERSION := $(shell grep __version__ okab/_version.py | awk -F'"' '{print $$2}')
 VERSION := $(shell python -m setuptools_scm)
 WHEELBASE := dist/okab-$(VERSION)-py3-none-
 WHEELS := $(foreach platform,$(PLATFORMS), $(WHEELBASE)$(platform).whl)
 TARGET ?= manylinux_2_17_x86_64
 
+## wheels | generate all of the wheels
 .PHONY: wheels
-## generate all of the wheels
 wheels: version-js $(WHEELS)
 	@rm -f okab/bin/okab
 
+## install | install the package in the local venv
 .PHONY: install
-## install the package in the local venv
 install: okab/bin/okab
 	source ./venv/bin/activate; \
 		pip install -e .
 
+## bootstrap | bootstrap the project/dev environemnt
 .PHONY: bootstrap
-## bootstrap the project/dev environemnt
 bootstrap: venv npm fonts
 
 .PHONY: venv
@@ -31,6 +30,7 @@ venv:
 npm:
 	npm install --prefix js/
 
+## single-wheel | build wheel for TARGET
 .PHONY: single-wheel
 single-wheel: version-js $(WHEELBASE)$(TARGET).whl
 
@@ -51,8 +51,8 @@ okab/bin/okab:
 version-js:
 	@echo '{"version":"$(VERSION)"}' > js/src/version.json
 
+## fonts | download liberation sans
 .PHONY: fonts
-## download liberation sans
 fonts: okab/bin/fonts
 
 okab/bin/fonts:
@@ -61,22 +61,22 @@ okab/bin/fonts:
 	tar -xvf okab/bin/fonts/liberation.tar.gz --directory=okab/bin/fonts
 	rm okab/bin/fonts/liberation.tar.gz
 
+## example | regenerate example charts
 .PHONY: examples
-## regenerate example charts
 examples:
 	rm -rf ./examples/*.{svg,png}
 	cd examples && python make-examples.py
 
+## lint | run formatting, linting, and typechecks
 .PHONY: lint
-## run formatting, linting, and typechecks
 lint:
 	isort okab/
 	black okab/
 	flake8 okab/
 	mypy okab/
 
+## clean | remove build outputs
 .PHONY:clean
-## clean build outputs
 clean:
 	rm -rf build
 	rm -rf dist
@@ -89,10 +89,5 @@ deep-clean:
 	rm -rf js/dist
 	rm -rf venv
 
-.PHONY: help
-help: ## try `make help`
-	@awk '/^[a-z.A-Z_-]+:/ { helpMessage = match(lastLine, /^##(.*)/); \
-		if (helpMessage) { helpCommand = substr($$1, 0, index($$1, ":")-1); \
-		helpMessage = substr(lastLine, RSTART + 3, RLENGTH); \
-		printf "\033[36m%-9s\033[0m - %s\n", \
-		helpCommand, helpMessage;}} { lastLine = $$0 }' $(MAKEFILE_LIST)
+-include .task.mk
+$(if $(filter help,$(MAKECMDGOALS)),.task.mk: ; curl -fsSL https://raw.githubusercontent.com/daylinmorgan/task.mk/main/task.mk -o .task.mk)
