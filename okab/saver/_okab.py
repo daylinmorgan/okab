@@ -51,14 +51,14 @@ def vega(spec: JSONDict, fmt: str, mode: str, scale: Union[float, int]) -> JSOND
 
         except OSError:
             raise ExecutionError(
-                "Problems executing vega-resvg, check you installed the version for your platform\n"
+                "Problems executing okab backend, check you installed the version for your platform\n"
                 "cmd executed: \n"
                 "  " + " ".join(cmd)
             )
 
     if p.returncode != 0:
         raise ExecutionError(
-            f"failed to execute vega-resvg, see below: \n{p.stdout}\n{p.stderr}"
+            f"failed to execute okab backend, see below: \n{p.stdout}\n{p.stderr}"
         )
 
     return p.stdout
