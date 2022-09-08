@@ -12,11 +12,15 @@ dependencies = ['importlib-resources>=5.9.0; python_version < "3.9"']
 requires-python = ">=3.7"
 license = { text = "MIT" }
 
+[project.urls]
+repository = "https://github.com/daylinmorgan/okab"
+
 [project.scripts]
 okab = "okab.__main__:main"
 
 [project.optional-dependencies]
 dev = [
+    "isort>=5.10.1",
     "black>=22.6.0",
     "flake8>=5.0.4",
     "mypy>=0.971",

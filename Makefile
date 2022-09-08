@@ -5,6 +5,14 @@ WHEELBASE := dist/okab-$(VERSION)-py3-none-
 WHEELS := $(foreach platform,$(PLATFORMS), $(WHEELBASE)$(platform).whl)
 TARGET ?= manylinux_2_17_x86_64
 
+## lint | run formatting, linting, and typechecks
+.PHONY: lint
+lint:
+	isort okab/
+	black okab/
+	flake8 okab/
+	mypy okab/
+
 ## wheels | generate all of the wheels
 .PHONY: wheels
 wheels: version-js $(WHEELS)
@@ -67,14 +75,6 @@ examples:
 	rm -rf ./examples/*.{svg,png}
 	cd examples && python make-examples.py
 
-## lint | run formatting, linting, and typechecks
-.PHONY: lint
-lint:
-	isort okab/
-	black okab/
-	flake8 okab/
-	mypy okab/
-
 ## clean | remove build outputs
 .PHONY:clean
 clean:
@@ -90,7 +90,6 @@ deep-clean:
 	rm -rf venv
 
 
-.DEFAULT_GOAL = help
 USAGE = ==> {a.b_green}Okab Development Tasks{a.end} <==\n\n{a.$(HEADER_COLOR)}usage{a.end}:\n  make <recipe>\n
 -include .task.mk
 $(if $(wildcard .task.mk),,.task.mk: ; curl -fsSL https://raw.githubusercontent.com/daylinmorgan/task.mk/v22.9.7/task.mk -o .task.mk)
