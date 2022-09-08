@@ -1,5 +1,5 @@
 // modified from vega-lite-cli
-const {version} = require("./version.json");
+const { version } = require("./version.json");
 
 exports.args = () => {
   const helpText = `Usage: okab -i [vega-json|vega-lite-json] -f [format]
@@ -14,76 +14,72 @@ exports.args = () => {
   const args = require("yargs").usage(helpText).demand(0);
 
   // helper command to print executable path
-  args.command("show-path", false, function () {
+  args.command("show-path", false, function() {
     console.log(process.execPath);
     process.exit(0);
   });
 
-  args
-    .string("i")
-    .alias("i", "input")
-    .describe("i", "vega/vega-lite json spec")
-    .demandOption("i");
+  args.options(
+    {
+      "i": {
+        alias: "input",
+        describe: "vega/vega-lite json spec",
+        type: "string",
+        demandOption: true,
+      },
+      "o": { alias: "output", describe: "output file path" }
+      ,
+      "f": {
+        describe: 'output format. One of "svg","png", or "vega".',
+        alias: "format",
+        type: "string"
+      },
+      "m": {
+        alias: "mode",
+        describe: "src-output mode",
+        default: "vega-lite",
+        type: "string"
+      },
+      "b": {
+        alias: "base",
+        describe: "Base directory for data loading. Defaults to the directory of the input spec.",
+        type: "string"
+      }
+      , "l": {
+        alias: "logLevel",
+        describe: 'Level of log messages written to stderr.\nOne of "off" "error", "warn" , "info", "debug" or "trace".',
+        default: "off",
+        type: "string",
+      }, "c":
+      {
+        alias: "config",
+        describe: "Vega config object. JSON file.",
+      },
+      "locale": {
+        describe: "Number format locale descriptor. JSON file."
+      }
+      , "t":
+      {
+        alias: "timeFormat",
 
-  args.string("o").alias("o", "output").describe("o", "output file path");
-  args
-    .string("f")
-    .alias("f", "format")
-    .describe("f", 'output format. One of "svg","png", or "vega".');
-
-  args
-    .string("m")
-    .alias("m", "mode")
-    .describe("m", "run mode")
-    .default("m", "vega-lite");
-
-  args
-    .string("b")
-    .alias("b", "base")
-    .describe(
-      "b",
-      "Base directory for data loading. Defaults to the directory of the input spec."
-    );
-
-  args
-    .string("l")
-    .alias("l", "loglevel")
-    .describe(
-      "l",
-      'Level of log messages written to stderr.\nOne of "off" "error", "warn" , "info", "debug" or "trace".'
-    )
-    .default("l", "off");
-
-  args
-    .string("c")
-    .alias("c", "config")
-    .describe("c", "Vega config object. JSON file.");
-
-  args
-    .string("locale")
-    .describe("locale", "Number format locale descriptor. JSON file.");
-
-  args
-    .string("t")
-    .alias("t", "timeFormat")
-    .describe("t", "Date/time format locale descriptor. JSON file.");
-
-  args
-    .boolean("header")
-    .describe("header", "Include XML header and SVG doctype.");
-
-  args
-    .number("s")
-    .alias("s", "scale")
-    .default("s", 1)
-    .describe("s", "Output resolution scale factor.");
-
-  args.number("seed").describe("seed", "Seed for random number generation.");
-
-  args
-    .boolean("p")
-    .alias("p", "pretty")
-    .describe("p", "Output human readable/pretty spec.");
+        describe: "Date/time format locale descriptor. JSON file.",
+      },
+      "header": {
+        describe: "Include XML header and SVG doctype."
+      },
+      "s": {
+        alias: "scale",
+        default: 1,
+        describe: "Output resolution scale factor.",
+      }, "seed": {
+        describe: "Seed for random number generation.",
+      }
+      , "p": {
+        alias: "pretty",
+        describe: "Output human readable/pretty spec.",
+        type: "boolean"
+      }
+    });
 
   args.alias("h", "help").help("help");
 
@@ -115,7 +111,7 @@ exports.parseMode = (arg) => {
   } else if (arg.mode.includes("altair") && arg.o) {
     console.error(
       "ERROR. --mode *-altair and --output are mutually exclusive. " +
-        "If executing okab directly use -m vega or -m vega-lite."
+      "If executing okab directly use -m vega or -m vega-lite."
     );
     process.exit(1);
   }
