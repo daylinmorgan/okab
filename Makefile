@@ -89,7 +89,6 @@ deep-clean:
 	rm -rf js/dist
 	rm -rf venv
 
-
-USAGE = ==> {a.b_green}Okab Development Tasks{a.end} <==\n\n{a.$(HEADER_COLOR)}usage{a.end}:\n  make <recipe>\n
 -include .task.mk
-$(if $(wildcard .task.mk),,.task.mk: ; curl -fsSL https://raw.githubusercontent.com/daylinmorgan/task.mk/v22.9.7/task.mk -o .task.mk)
+USAGE = ==> {a.b_green}Okab Development Tasks{a.end} <==\n\n{a.header}usage{a.end}:\n  make <recipe>\n
+$(if $(wildcard .task.mk),,.task.mk: ; curl -fsSL https://raw.githubusercontent.com/daylinmorgan/task.mk/v22.9.19/task.mk -o .task.mk)
