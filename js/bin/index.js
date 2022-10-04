@@ -5,11 +5,11 @@ const compile = require("../src/compile");
 
 const arg = args();
 
-const fmt = arg.f || parseFmt(arg);
+const fmt = arg.format || parseFmt(arg);
 parseMode(arg);
 
 if (fmt === "vega") {
-  read(arg.i).then((text) => compile(arg, JSON.parse(text)));
+  read(arg.input).then((text) => compile(arg, JSON.parse(text)));
 } else if ((fmt === "svg") | (fmt === "png")) {
   render(arg, fmt);
 } else {

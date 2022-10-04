@@ -9,9 +9,9 @@ const svgHeader =
 
 module.exports = (arg, fmt) => {
   svg(arg, function (body) {
-    const svgBody = (arg.h ? svgHeader : "") + body;
+    const svgBody = (arg.header ? svgHeader : "") + body;
     if (fmt === "svg") {
-      const file = arg.o || null;
+      const file = arg.output || null;
       if (file) {
         // write to file
         writeFile(file, svgBody, (err) => {
@@ -24,7 +24,7 @@ module.exports = (arg, fmt) => {
     } else if (fmt === "png") {
       png(arg, svgBody);
     } else {
-      console.error(`ERROR: ${arg.f} an unsupported format`);
+      console.error(`ERROR: ${arg.format} an unsupported format`);
     }
   });
 };

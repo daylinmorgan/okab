@@ -15,10 +15,10 @@ const Levels = {
 
 module.exports = (arg, callback) => {
   // set baseURL, if specified. default to input spec directory
-  const base = arg.base || (arg.i ? path.dirname(arg.i) : null);
+  const base = arg.base || (arg.input ? path.dirname(arg.input) : null);
 
   // set log level, defaults to logging warning messages
-  const loglevel = Levels[String(arg.loglevel).toLowerCase()] || vega.Warn;
+  const loglevel = Levels[String(arg.logLevel).toLowerCase()] || vega.Warn;
 
   // load config file, if specified
   const config = arg.config ? read(arg.config) : null;
@@ -53,7 +53,7 @@ module.exports = (arg, callback) => {
   }
 
   // read input from file or stdin
-  read(arg.i)
+  read(arg.input)
     .then((text) => render(JSON.parse(text)))
     .catch((err) => console.error(err));
 };

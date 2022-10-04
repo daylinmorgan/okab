@@ -4,7 +4,7 @@ const { Resvg } = require("@resvg/resvg-js");
 
 module.exports = (arg, svg) => {
   const opts = {
-    logLevel: arg.loglevel,
+    logLevel: arg.logLevel,
     font: {
       // two paths are included for now for debugging purposes
       fontDirs: [
@@ -23,7 +23,7 @@ module.exports = (arg, svg) => {
   if (arg.mode.includes("altair")) {
     console.log(`${dataImagePrefix}${pngBuffer.toString("base64")}`);
   } else {
-    const file = arg.o || null;
+    const file = arg.output || null;
     const out = file ? createWriteStream(file) : process.stdout;
     out.write(pngBuffer);
   }

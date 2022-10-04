@@ -20,62 +20,61 @@ exports.args = () => {
   });
 
   args.options({
-    i: {
-      alias: "input",
+    input: {
+      alias: "i",
       describe: "vega/vega-lite json spec",
       type: "string",
       demandOption: true,
     },
-    o: { alias: "output", describe: "output file path" },
-    f: {
+    output: { alias: "o", describe: "output file path" },
+    format: {
+      alias: "f",
       describe: 'output format. One of "svg","png", or "vega".',
-      alias: "format",
       type: "string",
     },
-    m: {
-      alias: "mode",
+    mode: {
+      alias: "m",
       describe: "src-output mode",
       default: "vega-lite",
       type: "string",
     },
-    b: {
-      alias: "base",
+    base: {
+      alias: "b",
       describe:
         "Base directory for data loading. Defaults to the directory of the input spec.",
       type: "string",
     },
-    l: {
-      alias: "logLevel",
+    logLevel: {
+      alias: "l",
       describe:
         'Level of log messages written to stderr.\nOne of "off" "error", "warn" , "info", "debug" or "trace".',
       default: "off",
       type: "string",
     },
-    c: {
-      alias: "config",
+    config: {
+      alias: "c",
       describe: "Vega config object. JSON file.",
     },
     locale: {
       describe: "Number format locale descriptor. JSON file.",
     },
-    t: {
-      alias: "timeFormat",
-
+    timeFormat: {
+      alias: "t",
       describe: "Date/time format locale descriptor. JSON file.",
     },
     header: {
       describe: "Include XML header and SVG doctype.",
     },
-    s: {
-      alias: "scale",
+    scale: {
+      alias: "s",
       default: 1,
       describe: "Output resolution scale factor.",
     },
     seed: {
       describe: "Seed for random number generation.",
     },
-    p: {
-      alias: "pretty",
+    pretty: {
+      alias: "p",
       describe: "Output human readable/pretty spec.",
       type: "boolean",
     },
@@ -87,7 +86,7 @@ exports.args = () => {
 };
 
 exports.parseFmt = (arg) => {
-  const ext = arg.o ? arg.o.split(".").pop() : null;
+  const ext = arg.output ? arg.output.split(".").pop() : null;
 
   if (ext) {
     if (ext == "json") {
@@ -108,7 +107,7 @@ exports.parseMode = (arg) => {
       `ERROR. unknown mode: ${arg.mode}. Must be one of ${modes.join(", ")}.`
     );
     process.exit(1);
-  } else if (arg.mode.includes("altair") && arg.o) {
+  } else if (arg.mode.includes("altair") && arg.output) {
     console.error(
       "ERROR. --mode *-altair and --output are mutually exclusive. " +
         "If executing okab directly use -m vega or -m vega-lite."
