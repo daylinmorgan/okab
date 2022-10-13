@@ -37,6 +37,37 @@ okab -i bar.vl.json -o chart.png
 
 See `okab -h` for a list of options.
 
+```bash
+Usage: okab -i [vega-json|vega-lite-json] -f [format]
+
+If no -o/--output specified  writes to stdout.
+For errors and log messages, writes to stderr.
+
+To load data, you may need to set a base directory:
+For web retrieval, use '-b http://host/data/'.
+For files, use '-b file:///dir/data/' (absolute) or '-b data/' (relative).
+
+Options:
+  -i, --input       vega/vega-lite json spec                 [string] [required]
+  -o, --output      output file path
+  -f, --format      output format. One of "svg","png", or "vega".       [string]
+  -m, --mode        src-output mode              [string] [default: "vega-lite"]
+  -b, --base        Base directory for data loading. Defaults to the directory
+                    of the input spec.                                  [string]
+  -l, --logLevel    Level of log messages written to stderr.
+                    One of "off" "error", "warn" , "info", "debug" or "trace".
+                                                       [string] [default: "off"]
+  -c, --config      Vega config object. JSON file.
+      --locale      Number format locale descriptor. JSON file.
+  -t, --timeFormat  Date/time format locale descriptor. JSON file.
+      --header      Include XML header and SVG doctype.
+  -s, --scale       Output resolution scale factor.                 [default: 1]
+      --seed        Seed for random number generation.
+  -p, --pretty      Output human readable/pretty spec.                 [boolean]
+      --version     Show version number                                [boolean]
+  -h, --help        Show help                                          [boolean]
+```
+
 ## Results
 
 <table>
